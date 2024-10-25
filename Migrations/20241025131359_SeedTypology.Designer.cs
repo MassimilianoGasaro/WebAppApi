@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAppApi.Data;
 
@@ -10,9 +11,11 @@ using WebAppApi.Data;
 namespace WebAppApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241025131359_SeedTypology")]
+    partial class SeedTypology
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -101,33 +104,6 @@ namespace WebAppApi.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("WebAppApi.Entities.Currency", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Currencies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Title = "Euro"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Title = "Dollaro"
-                        });
-                });
-
             modelBuilder.Entity("WebAppApi.Entities.Expense", b =>
                 {
                     b.Property<int>("Id")
@@ -137,8 +113,9 @@ namespace WebAppApi.Migrations
                     b.Property<float>("Cost")
                         .HasColumnType("REAL");
 
-                    b.Property<int>("CurrencyId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
@@ -158,8 +135,6 @@ namespace WebAppApi.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CurrencyId");
 
                     b.HasIndex("TypeId");
 
@@ -358,12 +333,6 @@ namespace WebAppApi.Migrations
 
             modelBuilder.Entity("WebAppApi.Entities.Expense", b =>
                 {
-                    b.HasOne("WebAppApi.Entities.Currency", "Currency")
-                        .WithMany("Expenses")
-                        .HasForeignKey("CurrencyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("WebAppApi.Entities.Typology", "Type")
                         .WithMany("Expenses")
                         .HasForeignKey("TypeId")
@@ -375,8 +344,6 @@ namespace WebAppApi.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Currency");
 
                     b.Navigation("Type");
 
@@ -400,11 +367,6 @@ namespace WebAppApi.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("WebAppApi.Entities.Currency", b =>
-                {
-                    b.Navigation("Expenses");
                 });
 
             modelBuilder.Entity("WebAppApi.Entities.Role", b =>

@@ -26,13 +26,11 @@ foreach (string roleName in roleNames)
 {
     bool roleExist = await roleManager.RoleExistsAsync(roleName);
     if (!roleExist)
-    {
         await roleManager.CreateAsync(new Role { Name = roleName });
-    }
 }
 
 // use CORS policy that before i've instanced
-app.UseCors(options => options.AllowAnyMethod().AllowCredentials().AllowAnyHeader().WithOrigins("http://localhost:4200", "https://localhost:4200"));
+app.UseCors("AllowAnyOrigin");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -13,7 +13,7 @@ namespace WebAppApi.Controllers
     [Route("api/[controller]")]
     public class ExpensesController(DataContext dataContext) : ControllerBase
     {
-        private DataContext _dataContext = dataContext;
+        private readonly DataContext _dataContext = dataContext;
         private Expense _expenseItem = new();
 
         [HttpGet("{id:int}")]
@@ -35,8 +35,7 @@ namespace WebAppApi.Controllers
         }
 
         [HttpPost("{id:int}")]
-        public async Task<IActionResult> InsertExpense( [FromRoute] int id, 
-            [FromBody] ExpenseDTO expenseRequest )
+        public async Task<IActionResult> InsertExpense([FromRoute] int id, [FromBody] ExpenseDTO expenseRequest )
         {
             try
             {

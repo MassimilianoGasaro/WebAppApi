@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAppApi.Data;
 
@@ -10,9 +11,11 @@ using WebAppApi.Data;
 namespace WebAppApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241025132700_UpdateRelationshipCurrencyExpenses")]
+    partial class UpdateRelationshipCurrencyExpenses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -113,19 +116,7 @@ namespace WebAppApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Currencies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Title = "Euro"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Title = "Dollaro"
-                        });
+                    b.ToTable("Currency");
                 });
 
             modelBuilder.Entity("WebAppApi.Entities.Expense", b =>
